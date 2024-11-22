@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  MyS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: Venkat-Ajay-Kishore
+      AccessControl: Private
+
+  MyS3BucketObject:
+    Type: AWS::S3::Bucket
+    Properties:
+      Bucket: !Ref MyS3Bucket
+      Key: example-object.txt
+      Body: |
+        This is an example object uploaded to S3 via CloudFormation    
+  MyS3BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref MyS3Bucket
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action: 'S3:GetObject'
+            Resource: !Sub 'arn:aws:s3:::${MyS3Bucket}/*'
+            Principal: '*'
+      
